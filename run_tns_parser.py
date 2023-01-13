@@ -2,6 +2,7 @@ from PyPDF2 import PdfReader
 import csv
 import sys
 import re
+import json
 
 all_chunks = []
 new_chunk_parts = []
@@ -61,14 +62,22 @@ def visitor_body(text, cm, tm, fontDict, fontSize):
 # print(text)
 # sys.exit()
 
+# NOTE: we're starting at page 8 because the first 7 pages are just the table of contents, but if the pdf changes we'll have to check to make sure this is still the case
 reader = PdfReader('tns.pdf')
-for page in reader.pages:
+for page in reader.pages[8:]:
   page.extract_text(visitor_text=visitor_body)
 
+# convert all_chunks to a dict
+all_chunks_dict = {index: chunk for index, chunk in enumerate(all_chunks)}
+
+# write the all_chunks_dict to a json file
+with open('all_chunks.json', 'w') as f:
+  json.dump(all_chunks_dict, f)
+
 # output to csv 
-with open('output.csv', 'w', encoding='utf-8') as f:
+with open('all_chunks.csv', 'w', encoding='utf-8') as f:
     # Create a CSV writer object
     writer = csv.writer(f, escapechar='\\')
-    for row in all_chunks:
-      writer.writerow([row, len(row.split(' '))])
+    for index, row in enumerate(all_chunks):
+      writer.writerow([index, row, len(row.split(' '))])
 
