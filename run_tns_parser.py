@@ -3,6 +3,13 @@ import csv
 import sys
 import re
 import json
+from dotenv import load_dotenv
+import os
+from transformers import GPT2TokenizerFast
+tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
+
+load_dotenv()
+EMBEDDING_DOCUMENT_MAX_TOKENS = int(os.getenv("EMBEDDING_DOCUMENT_MAX_TOKENS"))
 
 all_chunks = []
 new_chunk_parts = []
@@ -15,6 +22,9 @@ def match_header(text):
 
 # for more info on the visitor_body func see https://pypdf2.readthedocs.io/en/latest/user/extract-text.html
 def visitor_body(text, cm, tm, fontDict, fontSize):
+    global all_chunks
+    global new_chunk_parts
+
   # NOTE: i played around with this range in order to exlcude the header and footer of each page; leaving here for now but not using it
   # tm is a 5 element matrix that represent the vertical transaltion of the text
   # y = tm[5]
@@ -47,14 +57,26 @@ def visitor_body(text, cm, tm, fontDict, fontSize):
     if (match_header(text) and (fontSize == 17.2154 or fontSize == 14.3462)):
       # if we find a header, we want to take all subsequent text parts as one chunk; so first we add the current chunk to the all_chunks list, then we reset the new_chunk_parts list
       if (len(new_chunk_parts) > 0):
-        all_chunks.append("".join(new_chunk_parts))
+        all_chunks.append(("".join(new_chunk_parts).strip()))
 
-      new_chunk_parts.clear()  
+      new_chunk_parts.clear()
       new_chunk_parts.append(text)
+
     elif (fontSize == 11.9552):
-      # in this case, this is not a header, so we just add the text to the new_chunk_parts list; this particular font size excludes footnotes, and from what I can tell is generally the font sized used for text in the book
-      new_chunk_parts.append(text)
-      
+      current_chunk = "".join(new_chunk_parts + [text]).strip()
+      current_chunk_num_tokens = len(tokenizer.encode(current_chunk))
+      if (current_chunk_num_tokens > EMBEDDING_DOCUMENT_MAX_TOKENS):
+
+        if (len(new_chunk_parts) > 0):
+          all_chunks.append(("".join(new_chunk_parts).strip()))
+
+        new_chunk_parts.clear()
+        new_chunk_parts.append(text)
+
+      else:
+        # in this case, this is not a header, so we just add the text to the new_chunk_parts list; this particular font size excludes footnotes, and from what I can tell is generally the font sized used for text in the book
+        new_chunk_parts.append(text)
+
 # NOTE: leaving this code here for testing code on a single page 
 # page = reader.pages[150]
 # page.extract_text(visitor_text=visitor_body)
@@ -68,16 +90,16 @@ for page in reader.pages[8:]:
   page.extract_text(visitor_text=visitor_body)
 
 # convert all_chunks to a dict
-all_chunks_dict = {index: chunk for index, chunk in enumerate(all_chunks)}
+all_chunks_map = {index: {"document": chunk, "num_tokens": len(tokenizer.encode(chunk))} for index, chunk in enumerate(all_chunks)}
 
-# write the all_chunks_dict to a json file
-with open('all_chunks.json', 'w') as f:
-  json.dump(all_chunks_dict, f)
+# write the all_chunks_map to a json file
+with open('all_chunks_map.json', 'w') as f:
+  json.dump(all_chunks_map, f)
 
 # output to csv 
 with open('all_chunks.csv', 'w', encoding='utf-8') as f:
     # Create a CSV writer object
     writer = csv.writer(f, escapechar='\\')
     for index, row in enumerate(all_chunks):
-      writer.writerow([index, row, len(row.split(' '))])
+      writer.writerow([index, row, len(tokenizer.encode(row))])
 
