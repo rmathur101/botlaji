@@ -1,3 +1,12 @@
 # botlaji
 
-The only requirement is `PyPDF2` so make sure you install the dependency. Then run the `run.py` using something like `python run.py`. You should get an `output.csv` file in your folder. Note that because of some excel parsing issues, I've been uploading to google sheets. Google sheets seems to understand the `output.csv` file but excel seems to have issues. This has apparently has to do with encoding but haven't fixed it yet.
+This is a `python` project, `python3` was used so if you're using `python2` YMMV. 
+
+Steps to get up and running:
+1. `pip install -r requirements.txt'
+2. See the `.env.example` file. Create a copy and call it `.env`. Get an API key from OpenAI. Put your API key in the prescribed spot in the file. Note, that requests to the API cost money. So keep an eye on the spend on your account.
+3. Run the program like this: `python run.py [Put your query for The Network State book here and make sure it's in quotations]
+[Optional: you can add the word "True" (without quotations) as a 2nd argument if you want to view full context / prompt that is sent the Open AI API]
+
+Other notes:
+- Note that because of some excel parsing issues, I've been uploading to google sheets to view it. Google sheets seems to understand the `all_chunks.csv` file but excel seems to have issues. Probably some encoding issue that I'm not going to fix right now.
