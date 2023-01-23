@@ -10,5 +10,9 @@ Steps to get up and running:
 `python run.py [Put your query for The Network State book here and make sure it's in quotations]
 [Optional: you can add the word "True" (without quotations) as a 2nd argument if you want to view full context / prompt that is sent the Open AI API]`
 
+Example:
+
+`python run.py "Why do we need network states?"`
+
 Other notes:
 - Note that because of some excel parsing issues, I've been uploading to google sheets to view it. Google sheets seems to understand the `all_chunks.csv` file but excel seems to have issues. Probably some encoding issue that I'm not going to fix right now.
