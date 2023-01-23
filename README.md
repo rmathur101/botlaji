@@ -4,8 +4,9 @@ This is a `python` project, `python3` was used so if you're using `python2` YMMV
 
 Steps to get up and running:
 1. `pip install -r requirements.txt`
-2. See the `.env.example` file in the root of the repo. Create a copy and call it `.env`. Get an API key from OpenAI. Put your API key in the prescribed spot in the file. Note, that requests to the API cost money. So keep an eye on the spend on your account.
-3. Run the program like this: 
+2. See the `.env.example` file in the project root. Create a copy of it called `.env` and put it in in the project root. 
+3. Get an API key from OpenAI. Put your API key in the prescribed spot in the file. Note, that requests to the API cost money. So keep an eye on the spend on your account.
+4. Run the program like this: 
 
 `python run.py [Your query (make sure it's in quotes)] [Put in "True" (without quotes) to see the entire prompt sent to Open AI API]`
 
