@@ -10,7 +10,8 @@ Steps to get up and running:
 
 `python run.py [arg1] [arg2]`
 
-arg1: Your query (make sure it's in quotes) 
+arg1: Your query (make sure it's in quotes)
+
 arg2: Optional. Put "True" (without quotes) to see the prompt/context sent to the Open AI API
 
 Example:
