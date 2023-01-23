@@ -78,8 +78,6 @@ def construct_prompt(question, context_embeddings: dict, all_chunks_map) -> str:
     question_embedding = get_embedding(question, EMBEDDING_MODEL)
     most_relevant_document_sections = order_document_sections_by_query_similarity(question_embedding, context_embeddings)
 
-    print(most_relevant_document_sections)
-
     chosen_sections = []
     chosen_sections_len = 0
     chosen_sections_indexes = []
