@@ -23,7 +23,7 @@ COMPLETIONS_API_PARAMS = {
 }
 
 # check would this work?
-MAX_SECTION_LEN = 3000
+MAX_SECTION_LEN = int(os.getenv("MAX_SECTION_LEN")) 
 SEPARATOR = "\n* "
 ENCODING = "cl100k_base"  # encoding for text-embedding-ada-002
 

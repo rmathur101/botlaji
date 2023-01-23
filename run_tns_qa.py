@@ -12,6 +12,7 @@ with open('all_chunks_map.json', 'r') as f:
 # query = "What are the steps to create a network state?"
 # query = "Why do we need network states?"
 # query = "What is a startup society and how do you found one?"
+# query = "what are the steps to founding a startup society?"
 # query = "Can you give me an example of a startup society and how it was founded?"
 # query = "What do you see the future looking like in the next 10 or 20 year?"
 # query = "What kind of new technologies or ways of living will be possible in a network state?"
@@ -27,7 +28,10 @@ with open('all_chunks_map.json', 'r') as f:
 # query = "What is the concept of the ledger of record and why is it important?"
 # query = "What is an example of how the ledger of record will be used to build network states?"
 # query = "What are the different ways that liberals, convservatives, and libertarians view the world and will impact the future?"
-query = "What technologies will be most important in the future?"
+# query = "What technologies will be most important in the future?"
+# query = "What color are coco beans?"
+# query = "What is the book about?"
+query = "What is wrong with the current society?"
 
 answer = answer_query_with_context(query, all_chunks_map, embeddings_map, show_prompt=True)
 print(answer)
