@@ -1,4 +1,2 @@
 .env
-all_chunks.csv
-all_chunks_map.json
 __pycache__
