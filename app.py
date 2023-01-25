@@ -22,10 +22,15 @@ with open('all_chunks_map.json', 'r') as f:
 
 @app.post("/")
 def read_root(params: dict):
-  # question = params['question']
-  # answer = answer_query_with_context(question, all_chunks_map, embeddings_map, False)
-  answer = "This is a sample answer."
-  time.sleep(5)
+  shouldRunReal = False 
+
+  if shouldRunReal:
+    question = params['question']
+    answer = answer_query_with_context(question, all_chunks_map, embeddings_map, False)
+  else:
+    answer = "This is a sample answer."
+    time.sleep(5)
+
   return {"answer": answer} 
 
 @app.get("/test")
