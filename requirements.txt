@@ -5,3 +5,5 @@ openai==0.26.0
 tiktoken==0.1.2
 python-dotenv==0.21.0
 transformers==4.25.1
+uvicorn==0.20.0
+fastapi==0.89.1
